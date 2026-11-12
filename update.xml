@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel>
+        <title>Welly-Modify 有新版本啦！</title>
+        <link>https://raw.githubusercontent.com/Goston/Welly-Modify/main/update.xml</link>
+        <description>Welly-Modify 的自動更新資訊</description>
+        <language>zh-TW</language>
+        <item>
+            <title>1.0 版</title>
+            <description><![CDATA[
+                <ul>
+                    <li>修正防閒置：防閒置封包改為 Telnet 的 IAC DO TIMING-MARK</li>
+                    <li>修改視窗樣式：分頁列改為仿 Finder 的膠囊式樣式</li>
+                    <li>自動更新改用 Welly-Modify 自己的更新來源與簽章金鑰</li>
+                </ul>
+            ]]></description>
+            <pubDate>Thu, 12 Nov 2026 11:47:07 +0800</pubDate>
+            <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/Goston/Welly-Modify/releases/download/1.0/Welly-1.0.zip" sparkle:version="1" sparkle:shortVersionString="1.0" length="12715454" type="application/octet-stream" sparkle:dsaSignature="MD0CHQDFIZOrFZUNMxeCI77uHb57cRf8WCQaTqps0rDqAhwUcMGbDUpRi1pR537R+u2hIhkKn9HdXQSskB6k" />
+        </item>
+    </channel>
+</rss>
