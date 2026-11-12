@@ -1,4 +1,17 @@
 Changelog:
+    ver. 1.0 (Welly-Modify)
+        ** 以 clyang 版 (上游 3.2.0) 為基礎的修改版, 版本號從 1.0 重新起算
+
+        a. 修正防閒置: 防閒置封包由 6 個 NUL 位元組改為 Telnet 的
+           IAC DO TIMING-MARK (0xFF 0xFD 0x06)
+        b. 分頁列改為仿 Finder 的膠囊式樣式, 右側為圓形的「+」按鈕,
+           支援深色模式
+        c. 修正在新版 macOS 上開啟分頁後, 網址列等介面不會更新的問題
+        d. 自動更新改用 Welly-Modify 自己的更新來源與簽章金鑰,
+           不會再被自動更新成 clyang 版
+        e. 發佈的執行檔為 Apple Silicon 與 Intel 通用版本,
+           最低系統需求為 macOS 12.0
+
     ver. 3.1.1
         a. 新增用瀏覽器開啟該篇的網頁版的按鍵(command+p)
 

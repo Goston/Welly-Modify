@@ -25,6 +25,10 @@ Welly-Modify / 本版修改內容
    - 所有分頁平均分配分頁列寬度, 標題置中, 滑鼠移入分頁時才顯示關閉按鈕.
    - 支援深色模式, 分頁列高度由 22 調整為 34.
    - 修正在新版 macOS 上開啟分頁後, 網址列等介面不會更新的問題.
+3. 自動更新改用自己的更新來源
+   - 更新來源由上游改為本 repo 的 [update.xml](update.xml), 驗證更新檔用的簽章公鑰 (`src/dsa_pub.pem`) 也換成 Welly-Modify 自己的, 不會再被自動更新成 clyang 版.
+4. 版本號重新起算
+   - 版本號不再延續上游, 從 1.0 (1) 重新起算. 原始碼的基底是上游 clyang/welly 的 3.2.0.
 
 ![](screenshots/welly-modify.png)
 
@@ -39,13 +43,50 @@ This repo is based on [clyang/welly](https://github.com/clyang/welly) with the f
    - Tabs share the bar width equally with centered titles; the close button only shows on hover.
    - Supports Dark Mode; the tab bar height is changed from 22 to 34.
    - Fixes the address bar (and other UI) not being updated after opening a tab on recent macOS.
+3. Own update feed
+   - The auto-update feed now points to [update.xml](update.xml) in this repo, and the public key used to verify updates (`src/dsa_pub.pem`) is replaced with Welly-Modify's own, so the app is no longer updated back to the clyang edition.
+4. New version numbering
+   - Versions no longer follow upstream and start over from 1.0 (1). The source is based on upstream clyang/welly 3.2.0.
 
 
 Download latest version / 下載最新版
 -------------
-Welly - clyang edition: [v.3.1.1](https://github.com/clyang/welly/releases/tag/3.1.1)
+Welly-Modify: [1.0](https://github.com/Goston/Welly-Modify/releases/latest)
 
-or install via `homebrew`
+1. 到 [Releases](https://github.com/Goston/Welly-Modify/releases/latest) 下載 `Welly-1.0.zip`, 解壓縮後把 `Welly.app` 拖到「應用程式」.
+2. 系統需求: macOS 12.0 以上, 支援 Apple Silicon 與 Intel.
+
+### 第一次打開被擋下怎麼辦?
+
+本 App 沒有 Apple Developer ID 簽章, 也未經 Apple 公證 (notarization), 第一次打開時 macOS 會顯示類似「Apple 無法驗證『Welly』是否為惡意軟體」的警告並拒絕打開. 請依下列步驟放行, 只需要做一次:
+
+1. 先打開一次 `Welly.app`, 在警告視窗按「完成」.
+2. 打開「系統設定」>「隱私權與安全性」, 向下捲動到「安全性」.
+3. 按 Welly 那一項的「強制打開」. 這個按鈕只會在嘗試打開 App 之後約一小時內出現.
+4. 警告會再出現一次, 按「打開」並輸入登入密碼確認, 之後就可以正常打開了.
+
+以上步驟依據 Apple 官方文件: [打開來自未知開發者的 Mac App](https://support.apple.com/zh-tw/guide/mac-help/mh40616/mac).
+
+也可以改在「終端機」執行下列指令, 移除下載時被加上的隔離標記:
+
+> $ xattr -dr com.apple.quarantine /Applications/Welly.app
+
+***
+
+Welly-Modify is not signed with an Apple Developer ID and is not notarized, so macOS blocks it the first time you open it. To allow it (only needed once):
+
+1. Open `Welly.app` once and click "Done" on the warning.
+2. Go to System Settings > Privacy & Security and scroll down to Security.
+3. Click "Open Anyway" next to Welly. The button is only available for about an hour after you try to open the app.
+4. Click "Open" on the warning that appears again and enter your login password.
+
+Or remove the quarantine attribute in Terminal:
+
+> $ xattr -dr com.apple.quarantine /Applications/Welly.app
+
+### 上游版本 / Upstream
+
+上游的 clyang 版請到 [clyang/welly](https://github.com/clyang/welly/releases) 下載. Homebrew 的 `welly` cask 安裝的是上游的 clyang 版, 不是本修改版:
 
 > $ brew install --cask welly
 
@@ -129,6 +170,23 @@ A3: 為了避免DoS PTT, 5分鐘是寫死在程式中不能更改的, 同時, �
 
 Q4: 我要換電腦了, 但是我一堆追蹤的文章該怎麼備份啊?
 A4: 把 `/Users/你mac帳號/Library/Application Support/Welly` 中的 `PttArticle.db` 備份起來, 換到新電腦後, 把檔案放回去即可.
+
+Build / 自行編譯
+-------------
+專案的部署目標 (deployment target) 仍是 10.9, 新版 Xcode 不接受 (Xcode 27.2 最低為 12.0), 編譯時需要在命令列覆寫:
+
+```
+cd src
+xcodebuild -project Welly.xcodeproj -scheme Welly -configuration Release \
+    -destination 'generic/platform=macOS' \
+    MACOSX_DEPLOYMENT_TARGET=12.0 CODE_SIGN_IDENTITY=- build
+```
+
+- `-destination 'generic/platform=macOS'` 會編出 Apple Silicon 與 Intel 的通用版本, 省略的話只會編出本機的架構.
+- `CODE_SIGN_IDENTITY=-` 表示使用 ad-hoc 簽章.
+- Release 組態會把 `Welly.app` 輸出到 `/tmp/Welly.dst/Applications/`.
+- 版本號定義在 `src/Welly.xcodeproj/project.pbxproj` 的 `MARKETING_VERSION` 與 `CURRENT_PROJECT_VERSION`.
+- 自動更新是以 `CURRENT_PROJECT_VERSION` 和 [update.xml](update.xml) 的 `sparkle:version` 比較. 發佈新版時, 壓縮檔必須用與 `src/dsa_pub.pem` 對應的私鑰簽章, 並把簽章與檔案長度寫進 `update.xml`, 否則 App 會拒絕安裝該更新.
 
 Project Dependency / 程式相依性
 -------------
