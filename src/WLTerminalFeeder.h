@@ -31,6 +31,10 @@
     cell **_grid;
 	
     enum { TP_NORMAL, TP_ESCAPE, TP_CONTROL, TP_SCS } _state;
+
+    // 尚未比對完的 Telnet 回應開頭（最多是 IAC 與指令兩個位元組），等下一批資料再決定要丟棄還是照常處理
+    unsigned char _pendingTelnetReply[2];
+    NSUInteger _pendingTelnetReplyLength;
 	
     WLIntegerArray *_csBuf;
     WLIntegerArray *_csArg;

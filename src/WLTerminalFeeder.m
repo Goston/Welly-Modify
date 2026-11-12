@@ -144,6 +144,41 @@
 #define CSI_SCP     0x73 // s, Saves the cursor position.
 #define CSI_RCP     0x75 // u, Restores the cursor position.
 
+// Telnet 指令：防閒置送出 IAC DO TIMING-MARK 之後，伺服器會回 IAC WILL TIMING-MARK 或 IAC WONT TIMING-MARK
+#define TELNET_IAC      0xFF
+#define TELNET_WILL     0xFB
+#define TELNET_WONT     0xFC
+#define TELNET_OPT_TM   0x06 // TIMING-MARK
+
+// 把 bytes 中的 IAC WILL/WONT TIMING-MARK 濾掉，其餘位元組依原順序加到 output。
+// 回應可能被拆在兩次讀取之間，所以結尾若是尚未比對完的開頭，會先留在 pending，等下一批資料再決定。
+static void WLDropTimingMarkReplies(const unsigned char *bytes, NSUInteger length,
+                                    unsigned char pending[2], NSUInteger *pendingLength,
+                                    NSMutableData *output) {
+    for (NSUInteger i = 0; i < length; i++) {
+        unsigned char c = bytes[i];
+        if (*pendingLength == 1 && (c == TELNET_WILL || c == TELNET_WONT)) {
+            pending[1] = c;
+            *pendingLength = 2;
+        } else if (*pendingLength == 2 && c == TELNET_OPT_TM) {
+            // 完整的回應，整組丟棄
+            *pendingLength = 0;
+        } else {
+            // 不是要濾掉的回應，把先前保留的位元組還回去
+            if (*pendingLength > 0) {
+                [output appendBytes:pending length:*pendingLength];
+                *pendingLength = 0;
+            }
+            if (c == TELNET_IAC) {
+                pending[0] = c;
+                *pendingLength = 1;
+            } else {
+                [output appendBytes:&c length:1];
+            }
+        }
+    }
+}
+
 @interface WLTerminalFeeder ()
 /* Clear */
 - (void)clearRow:(int)r;
@@ -262,6 +297,15 @@ static unsigned short gEmptyAttr;
 	int i, j, x;
 	unsigned char c;
 	
+	// 忽略伺服器對防閒置的回應，避免被當成一般字元畫到畫面上。
+	// 絕大多數的資料不含 0xFF，此時直接使用原本的緩衝區，不需要複製。
+	if (_pendingTelnetReplyLength > 0 || (len > 0 && memchr(bytes, TELNET_IAC, len) != NULL)) {
+		NSMutableData *filtered = [NSMutableData dataWithCapacity:len + sizeof(_pendingTelnetReply)];
+		WLDropTimingMarkReplies(bytes, len, _pendingTelnetReply, &_pendingTelnetReplyLength, filtered);
+		bytes = [filtered bytes];
+		len = [filtered length];
+	}
+
 	if ([_terminal bbsType] == WLFirebird) {
 		_hasNewMessage = NO;
 	}
