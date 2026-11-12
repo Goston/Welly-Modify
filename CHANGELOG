@@ -1,4 +1,9 @@
 Changelog:
+    ver. 1.001 (Welly-Modify)
+        a. 接收端忽略伺服器對防閒置的回應 IAC WILL TIMING-MARK
+           (0xFF 0xFB 0x06) 與 IAC WONT TIMING-MARK (0xFF 0xFC 0x06),
+           不再把它們當成一般字元畫到畫面上
+
     ver. 1.0 (Welly-Modify)
         ** 以 clyang 版 (上游 3.2.0) 為基礎的修改版, 版本號從 1.0 重新起算
 

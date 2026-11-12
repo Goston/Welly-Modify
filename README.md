@@ -20,6 +20,7 @@ Welly-Modify / 本版修改內容
 
 1. 修正防閒置
    - 防閒置封包由 6 個 NUL 位元組改為 Telnet 的 `IAC DO TIMING-MARK` (`0xFF 0xFD 0x06`).
+   - 接收端會忽略伺服器對防閒置的回應 `IAC WILL TIMING-MARK` (`0xFF 0xFB 0x06`) 與 `IAC WONT TIMING-MARK` (`0xFF 0xFC 0x06`), 不會把它們當成一般字元畫到畫面上 (1.001 起).
 2. 修改視窗樣式
    - 分頁列改為仿 Finder 的膠囊式樣式: 淺灰色膠囊軌道, 作用中的分頁以白色膠囊標示, 右側為圓形的「+」按鈕.
    - 所有分頁平均分配分頁列寬度, 標題置中, 滑鼠移入分頁時才顯示關閉按鈕.
@@ -38,6 +39,7 @@ This repo is based on [clyang/welly](https://github.com/clyang/welly) with the f
 
 1. Anti-idle fix
    - The anti-idle packet is now Telnet `IAC DO TIMING-MARK` (`0xFF 0xFD 0x06`) instead of six NUL bytes.
+   - The server's replies to it, `IAC WILL TIMING-MARK` (`0xFF 0xFB 0x06`) and `IAC WONT TIMING-MARK` (`0xFF 0xFC 0x06`), are dropped on receipt instead of being drawn as text (since 1.001).
 2. New window style
    - Finder-like capsule tab bar: a light gray capsule track, a white capsule for the active tab, and a round "+" button on the right.
    - Tabs share the bar width equally with centered titles; the close button only shows on hover.
@@ -51,9 +53,9 @@ This repo is based on [clyang/welly](https://github.com/clyang/welly) with the f
 
 Download latest version / 下載最新版
 -------------
-Welly-Modify: [1.0](https://github.com/Goston/Welly-Modify/releases/latest)
+Welly-Modify: [1.001](https://github.com/Goston/Welly-Modify/releases/latest)
 
-1. 到 [Releases](https://github.com/Goston/Welly-Modify/releases/latest) 下載 `Welly-1.0.zip`, 解壓縮後把 `Welly.app` 拖到「應用程式」.
+1. 到 [Releases](https://github.com/Goston/Welly-Modify/releases/latest) 下載 `Welly-1.001.zip`, 解壓縮後把 `Welly.app` 拖到「應用程式」.
 2. 系統需求: macOS 12.0 以上, 支援 Apple Silicon 與 Intel.
 
 ### 第一次打開被擋下怎麼辦?
