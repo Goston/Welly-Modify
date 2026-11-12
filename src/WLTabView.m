@@ -153,8 +153,13 @@
 	}
 	
 	// select the tab
+	BOOL wasSelected = ([self selectedTabViewItem] == tabViewItem);
 	[self selectTabViewItem:nil];
 	[self selectTabViewItem:tabViewItem];
+	// 新版 macOS 的 selectTabViewItem:nil 不會取消選取，分頁原本就已選取時（第一個分頁，或重用空白分頁）
+	// 上面兩行不會觸發 tabView:didSelectTabViewItem:，網址列等介面就不會更新，因此改為直接通知 delegate
+	if (wasSelected)
+		[[self delegate] tabView:self didSelectTabViewItem:tabViewItem];
 }
 
 - (void)newTabWithCoverFlowPortal {

@@ -16,6 +16,7 @@
 
 // Views
 #import "WLTabView.h"
+#import "WLTabBarControl.h"
 
 // Panel Controllers
 #import "WLSitesPanelController.h"
@@ -183,8 +184,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
             [connection lastTouchDate] &&
             [[NSDate date] timeIntervalSinceDate:[connection lastTouchDate]] >= 119) {
 //            unsigned char msg[] = {0x1B, 'O', 'A', 0x1B, 'O', 'B'};
-            unsigned char msg[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-            [connection sendBytes:msg length:6];
+            unsigned char msg[] = {0xFF, 0xFD, 0x06};
+            [connection sendBytes:msg length:sizeof(msg)];
         }
     }
 }
@@ -238,7 +239,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
         CGFloat shift = 0.0;
 
         // Calculate the toolbar height
-        shift = NSHeight([_mainWindow frame]) - NSHeight([[_mainWindow contentView] frame]) + 22;
+        shift = NSHeight([_mainWindow frame]) - NSHeight([[_mainWindow contentView] frame]) + WLTabBarHeight;
 
         r.size.width = [config cellWidth] * [config column];
         r.size.height = [config cellHeight] * [config row] + shift;

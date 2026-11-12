@@ -9,6 +9,9 @@
 #import <Cocoa/Cocoa.h>
 #import <PSMTabBarControl/PSMTabBarControl.h>
 
+// 分頁列的高度；主視窗計算自身高度時也會用到
+extern const CGFloat WLTabBarHeight;
+
 @class WLMainFrameController;
 @interface WLTabBarControl : PSMTabBarControl {
 	WLMainFrameController *_currMainController;
