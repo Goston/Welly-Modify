@@ -162,12 +162,26 @@
     _lastTouchDate = [[NSDate date] retain];
 }
 
+// 更新這個連線所在分頁的標題。
+// 呼叫端一律用 performSelectorOnMainThread 排到主執行緒的下一輪執行：
+// 關閉分頁時分頁屆時已移除，不會多改一次標題；也涵蓋從登入執行緒觸發連線關閉的情況
+- (void)updateTabLabel:(NSString *)label {
+    for (NSTabViewItem *item in [[[WLMainFrameController sharedInstance] tabView] tabViewItems]) {
+        if ([[item identifier] content] == self) {
+            [item setLabel:label];
+            break;
+        }
+    }
+}
+
 #pragma mark -
 #pragma mark WLProtocol delegate methods
 - (void)protocolWillConnect:(id)protocol {
     [self setIsProcessing:YES];
     [self setConnected:NO];
     [self setIcon:[NSImage imageNamed:@"waiting.pdf"]];
+    // 重新連線時把分頁標題還原成站台名稱
+    [self performSelectorOnMainThread:@selector(updateTabLabel:) withObject:([_site name] ?: @"") waitUntilDone:NO];
 }
 
 - (void)monitorArticleAtBackground:(NSTimer *)timer {
@@ -437,6 +451,9 @@
     [self setConnected:NO];
 	[_feeder clearAll];
     [_terminal clearAll];
+    // 連線中斷時在分頁標題加註，例如「站台名稱 - 連線已中斷」
+    NSString *label = [NSString stringWithFormat:@"%@ - %@", [_site name] ?: @"", NSLocalizedString(@"Disconnected", @"Tab Label")];
+    [self performSelectorOnMainThread:@selector(updateTabLabel:) withObject:label waitUntilDone:NO];
 }
 
 #pragma mark -

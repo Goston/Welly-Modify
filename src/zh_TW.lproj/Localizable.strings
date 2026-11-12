@@ -192,3 +192,6 @@
 // Presentation Mode
 "Enter Presentation Mode" = "進入演示模式";
 "Exit Presentation Mode" = "退出演示模式";
+
+/* Tab Label */
+"Disconnected" = "連線已中斷";
