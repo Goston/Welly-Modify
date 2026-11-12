@@ -38,7 +38,7 @@
             ]]></description>
             <pubDate>Thu, 12 Nov 2026 11:47:07 +0800</pubDate>
             <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
-            <enclosure url="https://github.com/Goston/Welly-Modify/releases/download/1.0/Welly-1.0.zip" sparkle:version="1" sparkle:shortVersionString="1.0" length="12715454" type="application/octet-stream" sparkle:dsaSignature="MD0CHQDFIZOrFZUNMxeCI77uHb57cRf8WCQaTqps0rDqAhwUcMGbDUpRi1pR537R+u2hIhkKn9HdXQSskB6k" />
+            <enclosure url="https://github.com/Goston/Welly-Modify/releases/download/1.000/Welly-1.0.zip" sparkle:version="1" sparkle:shortVersionString="1.0" length="12715454" type="application/octet-stream" sparkle:dsaSignature="MD0CHQDFIZOrFZUNMxeCI77uHb57cRf8WCQaTqps0rDqAhwUcMGbDUpRi1pR537R+u2hIhkKn9HdXQSskB6k" />
         </item>
     </channel>
 </rss>
