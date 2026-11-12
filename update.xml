@@ -6,6 +6,17 @@
         <description>Welly-Modify 的自動更新資訊</description>
         <language>zh-TW</language>
         <item>
+            <title>1.002 版</title>
+            <description><![CDATA[
+                <ul>
+                    <li>連線中斷時，分頁標題會加註「連線已中斷」（例如「站台名稱 - 連線已中斷」），重新連線後還原</li>
+                </ul>
+            ]]></description>
+            <pubDate>Thu, 12 Nov 2026 15:57:29 +0800</pubDate>
+            <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/Goston/Welly-Modify/releases/download/1.002/Welly-1.002.zip" sparkle:version="3" sparkle:shortVersionString="1.002" length="12716327" type="application/octet-stream" sparkle:dsaSignature="MDwCHG/EDVDXBT+SgLRo4H+Jty47jGsyuWLvys1q4loCHF5zplnCf1n+lwQ6Uup116Ro5zf74rNdP1GMPVE=" />
+        </item>
+        <item>
             <title>1.001 版</title>
             <description><![CDATA[
                 <ul>
