@@ -14,6 +14,33 @@ Welly is a terminal application on Mac OS X, which aims to bring best user exper
 Special Thanks to: @ElvisChiang, @sunghau and @terces
 
 
+Welly-Modify / 本版修改內容
+-------------
+本 repo 以 [clyang/welly](https://github.com/clyang/welly) 為基礎, 另外做了以下修改:
+
+1. 修正防閒置
+   - 防閒置封包由 6 個 NUL 位元組改為 Telnet 的 `IAC DO TIMING-MARK` (`0xFF 0xFD 0x06`).
+2. 修改視窗樣式
+   - 分頁列改為仿 Finder 的膠囊式樣式: 淺灰色膠囊軌道, 作用中的分頁以白色膠囊標示, 右側為圓形的「+」按鈕.
+   - 所有分頁平均分配分頁列寬度, 標題置中, 滑鼠移入分頁時才顯示關閉按鈕.
+   - 支援深色模式, 分頁列高度由 22 調整為 34.
+   - 修正在新版 macOS 上開啟分頁後, 網址列等介面不會更新的問題.
+
+![](screenshots/welly-modify.png)
+
+***
+
+This repo is based on [clyang/welly](https://github.com/clyang/welly) with the following modifications:
+
+1. Anti-idle fix
+   - The anti-idle packet is now Telnet `IAC DO TIMING-MARK` (`0xFF 0xFD 0x06`) instead of six NUL bytes.
+2. New window style
+   - Finder-like capsule tab bar: a light gray capsule track, a white capsule for the active tab, and a round "+" button on the right.
+   - Tabs share the bar width equally with centered titles; the close button only shows on hover.
+   - Supports Dark Mode; the tab bar height is changed from 22 to 34.
+   - Fixes the address bar (and other UI) not being updated after opening a tab on recent macOS.
+
+
 Download latest version / 下載最新版
 -------------
 Welly - clyang edition: [v.3.1.1](https://github.com/clyang/welly/releases/tag/3.1.1)
