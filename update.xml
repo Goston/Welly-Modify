@@ -6,6 +6,18 @@
         <description>Welly-Modify 的自動更新資訊</description>
         <language>zh-TW</language>
         <item>
+            <title>1.003 版</title>
+            <description><![CDATA[
+                <ul>
+                    <li>修正防閒置觸發後畫面會換頁的問題：防閒置的 IAC DO TIMING-MARK 現在會以原始位元組送達伺服器，不再被當成 Ctrl-F</li>
+                    <li>防閒置的閒置門檻由約 2 分鐘改為 3 分鐘</li>
+                </ul>
+            ]]></description>
+            <pubDate>Thu, 12 Nov 2026 16:49:01 +0800</pubDate>
+            <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/Goston/Welly-Modify/releases/download/1.003/Welly-1.003.zip" sparkle:version="4" sparkle:shortVersionString="1.003" length="12722017" type="application/octet-stream" sparkle:dsaSignature="MD0CHQCaGZUuRxtWqyEqAhRu5JtYEfWo1ZOg/FsiqZ4IAhxWDx+8k7DLm7Sf6ah7OP8NI6dqsd6qkqOfhJPL" />
+        </item>
+        <item>
             <title>1.002 版</title>
             <description><![CDATA[
                 <ul>
