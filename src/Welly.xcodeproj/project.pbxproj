@@ -20,6 +20,7 @@
 		16B46312105448680085AA37 /* WLCoverFlowPortal.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B46311105448680085AA37 /* WLCoverFlowPortal.m */; };
 		16BF97BD0E3D9B7600ED990A /* WLIntegerArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 16BF97BC0E3D9B7600ED990A /* WLIntegerArray.m */; };
 		16C0C90F0E294C2700B576C5 /* WLPTY.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C0C90E0E294C2700B576C5 /* WLPTY.m */; };
+		A7E1C0032E00000100A1B2C3 /* WLTelnetRelay.c in Sources */ = {isa = PBXBuildFile; fileRef = A7E1C0022E00000100A1B2C3 /* WLTelnetRelay.c */; };
 		16DC3D090E3338B70060E8F0 /* online.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 16DC3D080E3338B70060E8F0 /* online.pdf */; };
 		16FEC3210E2A80B50035DADD /* WLTabBarControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 16FEC3200E2A80B50035DADD /* WLTabBarControl.m */; };
 		1841E73E0F7BD280002DCBA8 /* WLProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1841E73D0F7BD280002DCBA8 /* WLProxy.m */; };
@@ -172,6 +173,8 @@
 		16C0C90A0E294BAA00B576C5 /* WLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLProtocol.h; sourceTree = "<group>"; };
 		16C0C90D0E294C2700B576C5 /* WLPTY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPTY.h; sourceTree = "<group>"; };
 		16C0C90E0E294C2700B576C5 /* WLPTY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPTY.m; sourceTree = "<group>"; };
+		A7E1C0012E00000100A1B2C3 /* WLTelnetRelay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTelnetRelay.h; sourceTree = "<group>"; };
+		A7E1C0022E00000100A1B2C3 /* WLTelnetRelay.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = WLTelnetRelay.c; sourceTree = "<group>"; };
 		16DC3D080E3338B70060E8F0 /* online.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = online.pdf; sourceTree = "<group>"; };
 		16FEC31F0E2A80B50035DADD /* WLTabBarControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTabBarControl.h; sourceTree = "<group>"; };
 		16FEC3200E2A80B50035DADD /* WLTabBarControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLTabBarControl.m; sourceTree = "<group>"; };
@@ -818,6 +821,8 @@
 				16C0C90A0E294BAA00B576C5 /* WLProtocol.h */,
 				16C0C90D0E294C2700B576C5 /* WLPTY.h */,
 				16C0C90E0E294C2700B576C5 /* WLPTY.m */,
+				A7E1C0012E00000100A1B2C3 /* WLTelnetRelay.h */,
+				A7E1C0022E00000100A1B2C3 /* WLTelnetRelay.c */,
 				85145AAC0AB40192009FC710 /* WLTerminal.h */,
 				85145AAD0AB40192009FC710 /* WLTerminal.m */,
 				1600D7AD0E51C2B100496E3E /* WLTerminalFeeder.h */,
@@ -1005,6 +1010,7 @@
 				5AB1BFF50E18F3260094C370 /* KeyspanFrontRowControl.m in Sources */,
 				5AB1BFF70E18F3260094C370 /* RemoteControlContainer.m in Sources */,
 				16C0C90F0E294C2700B576C5 /* WLPTY.m in Sources */,
+				A7E1C0032E00000100A1B2C3 /* WLTelnetRelay.c in Sources */,
 				16FEC3210E2A80B50035DADD /* WLTabBarControl.m in Sources */,
 				1631E8200E2C672700B87A38 /* WLQuickLookBridge.m in Sources */,
 				DFB5998F1FA25B8200C556B0 /* HTMLNode.m in Sources */,

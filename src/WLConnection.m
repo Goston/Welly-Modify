@@ -479,6 +479,13 @@
     [data release];
 }
 
+- (void)sendRawBytes:(const void *)buf
+			  length:(NSInteger)length {
+    NSData *data = [[NSData alloc] initWithBytes:buf length:length];
+    [_protocol sendRaw:data];
+    [data release];
+}
+
 - (void)sendText:(NSString *)s {
     [self sendText:s withDelay:0];
 }

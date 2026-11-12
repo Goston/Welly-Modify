@@ -61,6 +61,9 @@
 - (void)sendMessage:(NSData *)msg;
 - (void)sendBytes:(const void *)buf 
 		   length:(NSInteger)length;
+// 把位元組原封不動地送到伺服器（Telnet 指令用），不會被當成按鍵轉義
+- (void)sendRawBytes:(const void *)buf
+			  length:(NSInteger)length;
 - (void)sendText:(NSString *)text;
 - (void)sendText:(NSString *)text 
 	   withDelay:(int)microsecond;

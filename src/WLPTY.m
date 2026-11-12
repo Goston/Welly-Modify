@@ -34,6 +34,14 @@
 @synthesize proxyAddress = _proxyAddress;
 
 + (NSString *)parse:(NSString *)addr {
+    return [self parse:addr relay:NULL];
+}
+
+// relay 不是 NULL 時，telnet:// 與 wss:// 會改為經由轉送層連線，建立好的轉送層由 *relay 回傳；
+// 其他連線方式或轉送層建立失敗時 *relay 為 NULL，指令與原本相同（直接連線）
++ (NSString *)parse:(NSString *)addr relay:(WLTelnetRelay **)relay {
+    if (relay)
+        *relay = NULL;
     // trim whitespaces
     addr = [addr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     // command, not "URL"
@@ -97,6 +105,11 @@
         // remove username for telnet
         if (range.length > 0)
             addr = [addr substringFromIndex:range.location + range.length];
+        if (relay && (*relay = WLTelnetRelayCreate(NULL, [addr UTF8String], [port UTF8String]))) {
+            // telnet 程式改連轉送層在本機監聽的連接埠，實際的站台由轉送層去連
+            addr = @"127.0.0.1";
+            port = [NSString stringWithFormat:@"%d", WLTelnetRelayPort(*relay)];
+        }
         NSFileManager *fileManager = [NSFileManager defaultManager];
         if (![fileManager fileExistsAtPath:@"/usr/bin/telnet"]) {
             NSString *filePath = [[NSBundle mainBundle] pathForResource:@"telnet" ofType:@""];
@@ -112,6 +125,15 @@
         // only needs to escape the command path
         //proxyScript = [NSRegularExpression escapedPatternForString:proxyScript];
         r = [NSString stringWithFormat:@"%@ wss://%@ %@", proxyScript, addr, port];
+        if (relay) {
+            // proxy.sh 裡的 telnet 程式改連轉送層的 unix socket，再由轉送層連到 websocket 轉接程式的 socket
+            NSString *relayPath = [NSTemporaryDirectory() stringByAppendingPathComponent:
+                                   [NSString stringWithFormat:@"welly-relay.%d.%@.sock", getpid(), port]];
+            NSString *targetPath = [NSString stringWithFormat:@"/tmp/telnetBYwebsocket.%@.sock", port];
+            *relay = WLTelnetRelayCreate([relayPath fileSystemRepresentation], [targetPath fileSystemRepresentation], NULL);
+            if (*relay)
+                r = [r stringByAppendingFormat:@" '%@'", relayPath];
+        }
     } else {
         r = [NSString stringWithFormat:fmt, addr, port];
     }
@@ -164,6 +186,10 @@
 }
 
 - (void)close {
+    if (_relay) {
+        WLTelnetRelayClose(_relay);
+        _relay = NULL;
+    }
     if (_pid > 0) {
         kill(_pid, SIGKILL);
         _pid = 0;
@@ -211,10 +237,14 @@
     size.ws_xpixel = 0;
     size.ws_ypixel = 0;
     
+    // 指令要在 fork 之前組好：轉送層是在這個行程建立的，子行程只負責執行指令
+    NSString *command = [WLPTY parse:addr relay:&_relay];
+    NSArray *a = [command componentsSeparatedByString:@" "];
+    _isSSH = [(NSString *)[a objectAtIndex:0] hasSuffix:@"ssh"];
+
     _pid = forkpty(&_fd, slaveName, &term, &size);
     if (_pid == 0) { /* child */
-        NSArray *a = [[WLPTY parse:addr] componentsSeparatedByString:@" "];
-        if ([(NSString *)[a objectAtIndex:0] hasSuffix:@"ssh"]) {
+        if (_isSSH) {
             NSString *proxyCommand = [WLProxy proxyCommandWithAddress:_proxyAddress type:_proxyType];
             if (proxyCommand) {
                 a = [[a arrayByAddingObject:@"-o"] arrayByAddingObject:proxyCommand];
@@ -233,7 +263,7 @@
             char *argv[4];
             argv[0] = (char *)[@"/bin/sh" UTF8String];
             argv[1] = (char *)[@"-c"  UTF8String];
-            argv[2] = (char *)[[WLPTY parse:addr] UTF8String];
+            argv[2] = (char *)[command UTF8String];
             argv[3] = NULL;
             execvp(argv[0], argv);
             perror(argv[0]);
@@ -302,6 +332,21 @@
         msg += size;
         length -= size;
     }
+}
+
+- (void)sendRaw:(NSData *)data {
+    if (_fd < 0 || _connecting) // 與 send: 相同，連線中不送
+        return;
+    if (_relay) {
+        // 經由轉送層直接送往伺服器，繞過 telnet 程式對 0xFF 的轉義
+        [_delegate protocolWillSend:self data:data];
+        WLTelnetRelaySend(_relay, [data bytes], [data length]);
+    } else if (_isSSH) {
+        // ssh 不會更動內容，照一般方式送出即可
+        [self send:data];
+    }
+    // 其餘情況（自訂指令，或轉送層建立失敗而直接執行 telnet）無法保證位元組原樣送達：
+    // telnet 程式會把 0xFF 轉義，伺服器會當成按鍵，所以不送
 }
 
 // NOTE: retain pty before starting the thread

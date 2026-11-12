@@ -13,6 +13,8 @@
 - (void)close;
 - (void)recv:(NSData *)data;
 - (void)send:(NSData *)data;
+// 把位元組原封不動地送到伺服器，用於 Telnet 指令（例如防閒置），不會被當成按鍵轉義
+- (void)sendRaw:(NSData *)data;
 @end
 
 @interface NSObject (WLProtocolDelegate)

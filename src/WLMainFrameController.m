@@ -182,10 +182,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
         if ([connection isKindOfClass:[WLConnection class]] &&
             [connection isConnected] &&
             [connection lastTouchDate] &&
-            [[NSDate date] timeIntervalSinceDate:[connection lastTouchDate]] >= 119) {
+            [[NSDate date] timeIntervalSinceDate:[connection lastTouchDate]] >= 180) {
 //            unsigned char msg[] = {0x1B, 'O', 'A', 0x1B, 'O', 'B'};
+            // IAC DO TIMING-MARK。必須以原始位元組送達伺服器：若當成一般輸入送出，telnet 程式會把 0xFF 轉義，
+            // 伺服器收到的 0x06 就成了 Ctrl-F（翻頁）
             unsigned char msg[] = {0xFF, 0xFD, 0x06};
-            [connection sendBytes:msg length:sizeof(msg)];
+            [connection sendRawBytes:msg length:sizeof(msg)];
         }
     }
 }
