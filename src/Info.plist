@@ -74,7 +74,7 @@
 	<key>SUEnableAutomaticChecks</key>
 	<true/>
 	<key>SUFeedURL</key>
-	<string>https://csie.io/welly/update.xml</string>
+	<string>https://raw.githubusercontent.com/Goston/Welly-Modify/main/update.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>SUScheduledCheckInterval</key>
