@@ -30,6 +30,10 @@ Welly-Modify / 本版修改內容
    - 更新來源由上游改為本 repo 的 [update.xml](update.xml), 驗證更新檔用的簽章公鑰 (`src/dsa_pub.pem`) 也換成 Welly-Modify 自己的, 不會再被自動更新成 clyang 版.
 4. 版本號重新起算
    - 版本號不再延續上游, 從 1.0 (1) 重新起算. 原始碼的基底是上游 clyang/welly 的 3.2.0.
+5. YouTube 影片連結以內建視窗播放 (1.004 起)
+   - 點擊文章中的 YouTube 影片連結時, 會在 Welly 自己的播放視窗以 YouTube 官方內嵌播放器開啟, 不必切換到瀏覽器. 影片不會自動播放, 按下播放鍵才開始.
+   - 支援 `youtube.com/watch?v=`, `youtu.be/`, `/shorts/`, `/live/`, `/embed/` 形式的連結, 連結中的起始時間 (`t=`, `start=`) 也會沿用.
+   - 需在偏好設定把「預設處理網址連結方式」設為「內建QuickLook開啟」. 設為「外部瀏覽器」或按住 Shift 點擊時, 仍會以瀏覽器開啟.
 
 ![](screenshots/welly-modify.png)
 
@@ -49,6 +53,10 @@ This repo is based on [clyang/welly](https://github.com/clyang/welly) with the f
    - The auto-update feed now points to [update.xml](update.xml) in this repo, and the public key used to verify updates (`src/dsa_pub.pem`) is replaced with Welly-Modify's own, so the app is no longer updated back to the clyang edition.
 4. New version numbering
    - Versions no longer follow upstream and start over from 1.0 (1). The source is based on upstream clyang/welly 3.2.0.
+5. Built-in YouTube player window (since 1.004)
+   - Clicking a YouTube video link opens it in Welly's own player window using the official YouTube embedded player, instead of switching to the browser. Videos do not autoplay.
+   - Supports `youtube.com/watch?v=`, `youtu.be/`, `/shorts/`, `/live/` and `/embed/` links; a start time in the link (`t=`, `start=`) is honored.
+   - Requires "Default URL Open" in Preferences to be set to "Builtin Quicklook". With "External Browser", or when Shift-clicking, links still open in the browser.
 
 
 Download latest version / 下載最新版
