@@ -53,9 +53,9 @@ This repo is based on [clyang/welly](https://github.com/clyang/welly) with the f
 
 Download latest version / 下載最新版
 -------------
-Welly-Modify: [1.003](https://github.com/Goston/Welly-Modify/releases/latest)
+Welly-Modify: [1.004](https://github.com/Goston/Welly-Modify/releases/latest)
 
-1. 到 [Releases](https://github.com/Goston/Welly-Modify/releases/latest) 下載 `Welly-1.003.zip`, 解壓縮後把 `Welly.app` 拖到「應用程式」.
+1. 到 [Releases](https://github.com/Goston/Welly-Modify/releases/latest) 下載 `Welly-1.004.zip`, 解壓縮後把 `Welly.app` 拖到「應用程式」.
 2. 系統需求: macOS 12.0 以上, 支援 Apple Silicon 與 Intel.
 
 ### 第一次打開被擋下怎麼辦?
