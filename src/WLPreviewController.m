@@ -9,6 +9,7 @@
 #import "WLPreviewController.h"
 #import "WLQuickLookBridge.h"
 #import "WLGlobalConfig.h"
+#import "WLYouTubeController.h"
 
 NSString *const WLGIFToHTMLFormat = @"<html><body bgcolor='Black'><center><img scalefit='1' style='position: absolute; top: 0; right: 0; bottom: 0; left: 0; height:100%%; margin: auto;' src='%@'></img></center></body></html>";
 
@@ -79,6 +80,9 @@ static BOOL sHasCacheDir = NO;
 }
 
 + (NSURLDownload *)downloadWithURL:(NSURL *)URL {
+    // YouTube 影片連結交給內建的播放視窗
+    if ([WLYouTubeController openURL:URL])
+        return nil;
     NSURL *originalURL = URL;
     URL = [self imageURLForURL:URL];
     // already downloading

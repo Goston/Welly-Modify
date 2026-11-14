@@ -14,6 +14,8 @@
 		161DF769106DE2780003E85A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 161DF768106DE2780003E85A /* SystemConfiguration.framework */; };
 		1631E8200E2C672700B87A38 /* WLQuickLookBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E81F0E2C672700B87A38 /* WLQuickLookBridge.m */; };
 		1631E84E0E2C8D5600B87A38 /* WLPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E84D0E2C8D5600B87A38 /* WLPreviewController.m */; };
+		A7E1C0132E00000200A1B2C3 /* WLYouTubeController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E1C0122E00000200A1B2C3 /* WLYouTubeController.m */; };
+		A7E1C0152E00000200A1B2C3 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E1C0142E00000200A1B2C3 /* WebKit.framework */; };
 		1634C00D106E0F4C008612CD /* WLEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1634C00C106E0F4C008612CD /* WLEncoder.m */; };
 		1680A7ED0E2F0F8300A2E175 /* WLBookmarkPortalItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680A7EC0E2F0F8300A2E175 /* WLBookmarkPortalItem.m */; };
 		169A2ED50EDDA871009770ED /* mouse.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 169A2ED40EDDA871009770ED /* mouse.pdf */; };
@@ -161,6 +163,9 @@
 		1631E8210E2C674300B87A38 /* WLQuickLookBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLQuickLookBridge.h; sourceTree = "<group>"; };
 		1631E84C0E2C8D5600B87A38 /* WLPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPreviewController.h; sourceTree = "<group>"; };
 		1631E84D0E2C8D5600B87A38 /* WLPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPreviewController.m; sourceTree = "<group>"; };
+		A7E1C0112E00000200A1B2C3 /* WLYouTubeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLYouTubeController.h; sourceTree = "<group>"; };
+		A7E1C0122E00000200A1B2C3 /* WLYouTubeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLYouTubeController.m; sourceTree = "<group>"; };
+		A7E1C0142E00000200A1B2C3 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		1634C00B106E0F4C008612CD /* WLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLEncoder.h; sourceTree = "<group>"; };
 		1634C00C106E0F4C008612CD /* WLEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLEncoder.m; sourceTree = "<group>"; };
 		1680A7EB0E2F0F8300A2E175 /* WLBookmarkPortalItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLBookmarkPortalItem.h; sourceTree = "<group>"; };
@@ -386,6 +391,7 @@
 				81624CE20E2F8F89009C9987 /* Carbon.framework in Frameworks */,
 				DF267C0B25E60D51006A800A /* IOKit.framework in Frameworks */,
 				DF267C0525E60CDB006A800A /* Quartz.framework in Frameworks */,
+				A7E1C0152E00000200A1B2C3 /* WebKit.framework in Frameworks */,
 				DF267C0725E60CEF006A800A /* AppKit.framework in Frameworks */,
 				DF267C1225E61104006A800A /* PSMTabBarControl.framework in Frameworks */,
 				160D6D4B0EE2E5B900CDC416 /* Security.framework in Frameworks */,
@@ -516,6 +522,7 @@
 				DF267C0825E60D49006A800A /* Foundation.framework */,
 				DF267C0625E60CEF006A800A /* AppKit.framework */,
 				DF98AC4625612C6200F36B19 /* Quartz.framework */,
+				A7E1C0142E00000200A1B2C3 /* WebKit.framework */,
 				DF8ACCE91FA87315009EF52F /* libz.tbd */,
 				DF8ACCE71FA8730D009EF52F /* libc++.tbd */,
 				DFB599911FA25C7200C556B0 /* libxml2.tbd */,
@@ -748,6 +755,8 @@
 			children = (
 				1631E84C0E2C8D5600B87A38 /* WLPreviewController.h */,
 				1631E84D0E2C8D5600B87A38 /* WLPreviewController.m */,
+				A7E1C0112E00000200A1B2C3 /* WLYouTubeController.h */,
+				A7E1C0122E00000200A1B2C3 /* WLYouTubeController.m */,
 				1631E8210E2C674300B87A38 /* WLQuickLookBridge.h */,
 				1631E81F0E2C672700B87A38 /* WLQuickLookBridge.m */,
 			);
@@ -1015,6 +1024,7 @@
 				1631E8200E2C672700B87A38 /* WLQuickLookBridge.m in Sources */,
 				DFB5998F1FA25B8200C556B0 /* HTMLNode.m in Sources */,
 				1631E84E0E2C8D5600B87A38 /* WLPreviewController.m in Sources */,
+				A7E1C0132E00000200A1B2C3 /* WLYouTubeController.m in Sources */,
 				1680A7ED0E2F0F8300A2E175 /* WLBookmarkPortalItem.m in Sources */,
 				5A56C3820E342CFF00082312 /* WLPostDownloadDelegate.m in Sources */,
 				16BF97BD0E3D9B7600ED990A /* WLIntegerArray.m in Sources */,
