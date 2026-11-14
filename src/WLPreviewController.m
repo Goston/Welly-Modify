@@ -20,8 +20,11 @@ NSString *const WLGIFToHTMLFormat = @"<html><body bgcolor='Black'><center><img s
     long long _contentLength, _transferredLength;
     NSString *_filename, *_path;
     NSURLDownload *_download;
+    // 無法預覽時交給瀏覽器開啟的網址（使用者點的原始連結）
+    NSURL *_browserURL;
 }
 @property(readwrite, assign) NSURLDownload *download;
+@property(readwrite, retain) NSURL *browserURL;
 - (void)showLoadingWindow;
 @end
 
@@ -62,7 +65,22 @@ static BOOL sHasCacheDir = NO;
     [WLQuickLookBridge orderFront];
 }
 
+// imgur 的頁面連結（imgur.com/<代碼>，沒有副檔名）回傳的是網頁，改寫成圖片位址才能預覽。
+// 相簿（/a/...）、圖庫（/gallery/...）等多段路徑不是單張圖片，維持原樣。
++ (NSURL *)imageURLForURL:(NSURL *)URL {
+    NSArray *hosts = [NSArray arrayWithObjects:@"imgur.com", @"www.imgur.com", @"m.imgur.com", @"i.imgur.com", nil];
+    if (![hosts containsObject:[[URL host] lowercaseString]])
+        return URL;
+    // -path 不含查詢字串與結尾的斜線
+    NSString *path = [URL path];
+    if ([path rangeOfString:@"^/[A-Za-z0-9]{5,7}$" options:NSRegularExpressionSearch].location == NSNotFound)
+        return URL;
+    return [NSURL URLWithString:[NSString stringWithFormat:@"https://i.imgur.com%@.jpg", path]];
+}
+
 + (NSURLDownload *)downloadWithURL:(NSURL *)URL {
+    NSURL *originalURL = URL;
+    URL = [self imageURLForURL:URL];
     // already downloading
     if ([sURLs containsObject:URL])
         return nil;
@@ -80,12 +98,13 @@ static BOOL sHasCacheDir = NO;
                                                  cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                              timeoutInterval:30.0];
         WLDownloadDelegate *delegate = [[WLDownloadDelegate alloc] init];
+        [delegate setBrowserURL:originalURL];
         download = [[NSURLDownload alloc] initWithRequest:request delegate:delegate];
         [delegate setDownload:download];
         [delegate release];
     }
     if (download == nil)
-        [[NSWorkspace sharedWorkspace] openURL:URL];
+        [[NSWorkspace sharedWorkspace] openURL:originalURL];
     return download;
 }
 
@@ -96,6 +115,7 @@ static BOOL sHasCacheDir = NO;
 
 @implementation WLDownloadDelegate
 @synthesize download = _download;
+@synthesize browserURL = _browserURL;
 
 static NSString * stringFromFileSize(long long size) {
     NSString *fmt;
@@ -148,6 +168,7 @@ static NSString * stringFromFileSize(long long size) {
     [_window release];
 	
 	[_download release];
+    [_browserURL release];
     [super dealloc];
 }
 
@@ -235,8 +256,12 @@ static NSString * stringFromFileSize(long long size) {
 	// dectect file type to avoid useless download
 	// by gtCarrera @ 9#
 	NSString *fileType = [[_filename pathExtension] lowercaseString];
-	NSArray *allowedTypes = [NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", @"pdf", nil];
+	NSArray *allowedTypes = [NSArray arrayWithObjects:@"jpg", @"jpeg", @"bmp", @"png", @"gif", @"tiff", @"tif", @"pdf", @"webp", @"avif", @"heic", @"heif", nil];
 	Boolean canView = [allowedTypes containsObject:fileType];
+	// imgur 對已移除或不存在的圖片會轉址到這張替代圖，不當成圖片預覽
+	NSURL *responseURL = [response URL];
+	if ([[responseURL host] isEqualToString:@"i.imgur.com"] && [[responseURL lastPathComponent] isEqualToString:@"removed.png"])
+		canView = NO;
 	if (!canView) {
 		// Close the progress bar window
 		[_window close];
@@ -349,7 +374,7 @@ static void formatProps(NSMutableString *s, id *fmt, id *val) {
 - (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error {
     NSURL *URL = [[download request] URL];
     [sURLs removeObject:URL];
-    [[NSWorkspace sharedWorkspace] openURL:URL];
+    [[NSWorkspace sharedWorkspace] openURL:_browserURL];
 
 }
 
