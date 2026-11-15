@@ -183,17 +183,15 @@ A4: 把 `/Users/你mac帳號/Library/Application Support/Welly` 中的 `PttArtic
 
 Build / 自行編譯
 -------------
-專案的部署目標 (deployment target) 仍是 10.9, 新版 Xcode 不接受 (Xcode 27.2 最低為 12.0), 編譯時需要在命令列覆寫:
+專案的部署目標 (deployment target) 是 macOS 12.0 (Xcode 27.2 可接受的最低版本), 不需要另外覆寫建置設定:
 
 ```
 cd src
-xcodebuild -project Welly.xcodeproj -scheme Welly -configuration Release \
-    -destination 'generic/platform=macOS' \
-    MACOSX_DEPLOYMENT_TARGET=12.0 CODE_SIGN_IDENTITY=- build
+xcodebuild -project Welly.xcodeproj -scheme Welly -configuration Release build
 ```
 
-- `-destination 'generic/platform=macOS'` 會編出 Apple Silicon 與 Intel 的通用版本, 省略的話只會編出本機的架構.
-- `CODE_SIGN_IDENTITY=-` 表示使用 ad-hoc 簽章.
+- 這樣只會編出本機的架構. 加上 `-destination 'generic/platform=macOS'` 會編出 Apple Silicon 與 Intel 的通用版本.
+- 專案沒有設定簽章身分, 編出來的 App 是 ad-hoc 簽章.
 - Release 組態會把 `Welly.app` 輸出到 `/tmp/Welly.dst/Applications/`.
 - 版本號定義在 `src/Welly.xcodeproj/project.pbxproj` 的 `MARKETING_VERSION` 與 `CURRENT_PROJECT_VERSION`.
 - 自動更新是以 `CURRENT_PROJECT_VERSION` 和 [update.xml](update.xml) 的 `sparkle:version` 比較. 發佈新版時, 壓縮檔必須用與 `src/dsa_pub.pem` 對應的私鑰簽章, 並把簽章與檔案長度寫進 `update.xml`, 否則 App 會拒絕安裝該更新.
