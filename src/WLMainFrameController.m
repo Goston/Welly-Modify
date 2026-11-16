@@ -72,6 +72,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(WLMainFrameController);
                                               context:nil];
 
 	[self initializeTabControl];
+    // 工具列的防閒置圖示是黑色的一般圖片，啟用時不會被系統反白；標成模板圖片後就會和其他切換按鈕一樣
+    [[NSImage imageNamed:@"sleep"] setTemplate:YES];
     // Trigger the KVO to update the information properly.
     [[WLGlobalConfig sharedInstance] setShowsHiddenText:[[WLGlobalConfig sharedInstance] showsHiddenText]];
     [[WLGlobalConfig sharedInstance] setCellWidth:[[WLGlobalConfig sharedInstance] cellWidth]];
