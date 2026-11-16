@@ -6,6 +6,17 @@
         <description>Welly-Modify 的自動更新資訊</description>
         <language>zh-TW</language>
         <item>
+            <title>1.005 版</title>
+            <description><![CDATA[
+                <ul>
+                    <li>工具列的防閒置圖示換成「zzz」，啟用時會和其他切換按鈕一樣顯示為強調色底、白色圖示</li>
+                </ul>
+            ]]></description>
+            <pubDate>Mon, 16 Nov 2026 09:35:14 +0800</pubDate>
+            <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/Goston/Welly-Modify/releases/download/1.005/Welly-1.005.zip" sparkle:version="6" sparkle:shortVersionString="1.005" length="12734558" type="application/octet-stream" sparkle:dsaSignature="MD0CHDUOnm8BCitk4AvA3qRx2GluVI+stn23LPJ+/s8CHQC56GY3fg+ZSnvIAgCimUQ7LI0Qmt9GqTAD4LBd" />
+        </item>
+        <item>
             <title>1.004 版</title>
             <description><![CDATA[
                 <ul>
