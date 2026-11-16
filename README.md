@@ -15,9 +15,9 @@ Welly-Modify 是 macOS 上的 BBS 用戶端 Welly 的修改版，以 [clyang/wel
 
 ## 下載與安裝
 
-最新版：[1.005](https://github.com/Goston/Welly-Modify/releases/latest)
+最新版：[1.006](https://github.com/Goston/Welly-Modify/releases/latest)
 
-1. 到 [Releases](https://github.com/Goston/Welly-Modify/releases/latest) 下載 `Welly-1.005.zip`。
+1. 到 [Releases](https://github.com/Goston/Welly-Modify/releases/latest) 下載 `Welly-1.006.zip`。
 2. 解壓縮後，把 `Welly.app` 拖到「應用程式」。
 
 系統需求：macOS 12.0 以上，支援 Apple Silicon 與 Intel。
