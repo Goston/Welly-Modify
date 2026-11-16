@@ -6,6 +6,17 @@
         <description>Welly-Modify 的自動更新資訊</description>
         <language>zh-TW</language>
         <item>
+            <title>1.006 版</title>
+            <description><![CDATA[
+                <ul>
+                    <li>「關於 Welly」視窗最前面加入本修改版（Goston's build）的資訊與專案連結，版權列同步更新；功能沒有變動</li>
+                </ul>
+            ]]></description>
+            <pubDate>Mon, 16 Nov 2026 10:16:16 +0800</pubDate>
+            <sparkle:minimumSystemVersion>12.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/Goston/Welly-Modify/releases/download/1.006/Welly-1.006.zip" sparkle:version="7" sparkle:shortVersionString="1.006" length="12734769" type="application/octet-stream" sparkle:dsaSignature="MD4CHQCFKbrnGOmreLZwgNe7A8N1TKeKCcx8EyG4ZsZjAh0AouEurxEo2aX4doEIYQdHYZOEE2KfCqVs2/PjMg==" />
+        </item>
+        <item>
             <title>1.005 版</title>
             <description><![CDATA[
                 <ul>
