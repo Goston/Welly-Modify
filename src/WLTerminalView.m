@@ -901,7 +901,9 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
         return;
     }
     // Disable the mouse if we cancelled any selection
-    if(abs(_selectionLength) > 0)
+    // 長度 1 的選取是點擊時滑鼠微動留下的（mouseUp 同樣把它當成點擊），不算取消選取；
+    // 否則每次這樣的點擊之後，下一次點擊都會被吃掉
+    if(abs(_selectionLength) > 1)
         _isNotCancelingSelection = NO;
     NSPoint p = [self convertPoint:[theEvent locationInWindow] fromView:nil];
     _selectionLocation = [self convertIndexFromPoint:p];
@@ -1110,7 +1112,8 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
 - (void)clearSelection {
     if (_selectionLength != 0) {
         _selectionLength = 0;
-        _isNotCancelingSelection = NO;
+        // 這裡不可以把 _isNotCancelingSelection 設成 NO：按鍵或切換分頁清除選取時，
+        // 旗標會留到下一次滑鼠點擊，讓那次點擊被吃掉。「點擊取消選取」已由 mouseDown 處理
         _hasRectangleSelected = NO;
         [self setNeedsDisplay:YES];
     }
