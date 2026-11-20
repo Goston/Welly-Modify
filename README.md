@@ -15,9 +15,9 @@ Welly-Modify 是 macOS 上的 BBS 用戶端 Welly 的修改版，以 [clyang/wel
 
 ## 下載與安裝
 
-最新版：[1.006](https://github.com/Goston/Welly-Modify/releases/latest)
+最新版：[1.007](https://github.com/Goston/Welly-Modify/releases/latest)
 
-1. 到 [Releases](https://github.com/Goston/Welly-Modify/releases/latest) 下載 `Welly-1.006.zip`。
+1. 到 [Releases](https://github.com/Goston/Welly-Modify/releases/latest) 下載 `Welly-1.007.zip`。
 2. 解壓縮後，把 `Welly.app` 拖到「應用程式」。
 
 系統需求：macOS 12.0 以上，支援 Apple Silicon 與 Intel。
@@ -55,9 +55,13 @@ xattr -dr com.apple.quarantine /Applications/Welly.app
     - 點擊文章中的 YouTube 影片連結時，會在 Welly 自己的播放視窗以 YouTube 官方內嵌播放器開啟，不必切換到瀏覽器。影片不會自動播放，按下播放鍵才開始。
     - 支援 `youtube.com/watch?v=`、`youtu.be/`、`/shorts/`、`/live/`、`/embed/` 形式的連結，連結中的起始時間（`t=`、`start=`）也會沿用。
     - 需在偏好設定把「預設處理網址連結方式」設為「內建QuickLook開啟」。設為「外部瀏覽器」或按住 Shift 點擊時，仍會以瀏覽器開啟。
-4. **自動更新改用自己的更新來源**
+4. **一般網頁連結以內建視窗開啟**（1.007 起）
+    - 點擊文章中的網頁連結時，會在 Welly 自己的網頁視窗開啟，不必切換到瀏覽器。視窗只有一個，再點別的連結就換成新的網頁；工具列有上一頁、下一頁、重新載入與「以瀏覽器開啟」。
+    - `http://` 連結會先改成 `https://` 載入，載入失敗才交給外部瀏覽器。網頁視窗不會共用瀏覽器的登入狀態。
+    - 圖片連結仍以 Quick Look 預覽，YouTube 影片連結仍以播放視窗開啟。同樣需把「預設處理網址連結方式」設為「內建QuickLook開啟」；按住 Shift 點擊時仍會以瀏覽器開啟。
+5. **自動更新改用自己的更新來源**
     - 更新來源由上游改為本 repo 的 [update.xml](update.xml)，驗證更新檔用的簽章公鑰（`src/dsa_pub.pem`）也換成 Welly-Modify 自己的，不會再被自動更新成 clyang 版。
-5. **版本號重新起算**
+6. **版本號重新起算**
     - 版本號不再延續上游，從 1.0 (1) 重新起算。
 
 ## 主要功能
@@ -193,9 +197,13 @@ Main changes relative to upstream clyang/welly 3.2.0:
     - Clicking a YouTube video link opens it in Welly's own player window using the official YouTube embedded player, instead of switching to the browser. Videos do not autoplay.
     - Supports `youtube.com/watch?v=`, `youtu.be/`, `/shorts/`, `/live/` and `/embed/` links; a start time in the link (`t=`, `start=`) is honored.
     - Requires "Default URL Open" in Preferences to be set to "Builtin Quicklook". With "External Browser", or when Shift-clicking, links still open in the browser.
-4. **Own update feed**
+4. **Built-in web window for other links** (since 1.007)
+    - Clicking a web link opens it in Welly's own web window instead of switching to the browser. There is a single window that is reused for the next link, with Back, Forward, Reload and "Open in Browser" in the toolbar.
+    - `http://` links are loaded as `https://` first and handed to the external browser only if that fails. The web window does not share your browser's sign-in state.
+    - Image links still use Quick Look and YouTube links still use the player window. This also requires "Default URL Open" to be set to "Builtin Quicklook"; Shift-clicking still opens the browser.
+5. **Own update feed**
     - The auto-update feed now points to [update.xml](update.xml) in this repo, and the public key used to verify updates (`src/dsa_pub.pem`) is replaced with Welly-Modify's own, so the app is no longer updated back to the clyang edition.
-5. **New version numbering**
+6. **New version numbering**
     - Versions no longer follow upstream and start over from 1.0 (1).
 
 ### Features
