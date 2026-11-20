@@ -15,6 +15,7 @@
 		1631E8200E2C672700B87A38 /* WLQuickLookBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E81F0E2C672700B87A38 /* WLQuickLookBridge.m */; };
 		1631E84E0E2C8D5600B87A38 /* WLPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1631E84D0E2C8D5600B87A38 /* WLPreviewController.m */; };
 		A7E1C0132E00000200A1B2C3 /* WLYouTubeController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E1C0122E00000200A1B2C3 /* WLYouTubeController.m */; };
+		A7E1C0232E00000200A1B2C3 /* WLWebController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7E1C0222E00000200A1B2C3 /* WLWebController.m */; };
 		A7E1C0152E00000200A1B2C3 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7E1C0142E00000200A1B2C3 /* WebKit.framework */; };
 		1634C00D106E0F4C008612CD /* WLEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1634C00C106E0F4C008612CD /* WLEncoder.m */; };
 		1680A7ED0E2F0F8300A2E175 /* WLBookmarkPortalItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1680A7EC0E2F0F8300A2E175 /* WLBookmarkPortalItem.m */; };
@@ -165,6 +166,8 @@
 		1631E84D0E2C8D5600B87A38 /* WLPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLPreviewController.m; sourceTree = "<group>"; };
 		A7E1C0112E00000200A1B2C3 /* WLYouTubeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLYouTubeController.h; sourceTree = "<group>"; };
 		A7E1C0122E00000200A1B2C3 /* WLYouTubeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLYouTubeController.m; sourceTree = "<group>"; };
+		A7E1C0212E00000200A1B2C3 /* WLWebController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLWebController.h; sourceTree = "<group>"; };
+		A7E1C0222E00000200A1B2C3 /* WLWebController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLWebController.m; sourceTree = "<group>"; };
 		A7E1C0142E00000200A1B2C3 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		1634C00B106E0F4C008612CD /* WLEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLEncoder.h; sourceTree = "<group>"; };
 		1634C00C106E0F4C008612CD /* WLEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLEncoder.m; sourceTree = "<group>"; };
@@ -757,6 +760,8 @@
 				1631E84D0E2C8D5600B87A38 /* WLPreviewController.m */,
 				A7E1C0112E00000200A1B2C3 /* WLYouTubeController.h */,
 				A7E1C0122E00000200A1B2C3 /* WLYouTubeController.m */,
+				A7E1C0212E00000200A1B2C3 /* WLWebController.h */,
+				A7E1C0222E00000200A1B2C3 /* WLWebController.m */,
 				1631E8210E2C674300B87A38 /* WLQuickLookBridge.h */,
 				1631E81F0E2C672700B87A38 /* WLQuickLookBridge.m */,
 			);
@@ -1025,6 +1030,7 @@
 				DFB5998F1FA25B8200C556B0 /* HTMLNode.m in Sources */,
 				1631E84E0E2C8D5600B87A38 /* WLPreviewController.m in Sources */,
 				A7E1C0132E00000200A1B2C3 /* WLYouTubeController.m in Sources */,
+				A7E1C0232E00000200A1B2C3 /* WLWebController.m in Sources */,
 				1680A7ED0E2F0F8300A2E175 /* WLBookmarkPortalItem.m in Sources */,
 				5A56C3820E342CFF00082312 /* WLPostDownloadDelegate.m in Sources */,
 				16BF97BD0E3D9B7600ED990A /* WLIntegerArray.m in Sources */,

@@ -195,3 +195,9 @@
 
 /* Tab Label */
 "Disconnected" = "連線已中斷";
+
+/* Web Window Toolbar */
+"Back" = "上一頁";
+"Forward" = "下一頁";
+"Reload" = "重新載入";
+"Open in Browser" = "以瀏覽器開啟";

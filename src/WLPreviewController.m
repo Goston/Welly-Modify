@@ -10,6 +10,7 @@
 #import "WLQuickLookBridge.h"
 #import "WLGlobalConfig.h"
 #import "WLYouTubeController.h"
+#import "WLWebController.h"
 
 NSString *const WLGIFToHTMLFormat = @"<html><body bgcolor='Black'><center><img scalefit='1' style='position: absolute; top: 0; right: 0; bottom: 0; left: 0; height:100%%; margin: auto;' src='%@'></img></center></body></html>";
 
@@ -21,7 +22,7 @@ NSString *const WLGIFToHTMLFormat = @"<html><body bgcolor='Black'><center><img s
     long long _contentLength, _transferredLength;
     NSString *_filename, *_path;
     NSURLDownload *_download;
-    // 無法預覽時交給瀏覽器開啟的網址（使用者點的原始連結）
+    // 無法預覽成圖片時改用網頁視窗（或系統）開啟的網址（使用者點的原始連結）
     NSURL *_browserURL;
 }
 @property(readwrite, assign) NSURLDownload *download;
@@ -79,6 +80,12 @@ static BOOL sHasCacheDir = NO;
     return [NSURL URLWithString:[NSString stringWithFormat:@"https://i.imgur.com%@.jpg", path]];
 }
 
+// 不能當成圖片預覽的連結：網頁交給內建的網頁視窗，其餘種類（mailto: 等）交給系統
++ (void)openWithoutPreview:(NSURL *)URL {
+    if (![WLWebController openURL:URL])
+        [[NSWorkspace sharedWorkspace] openURL:URL];
+}
+
 + (NSURLDownload *)downloadWithURL:(NSURL *)URL {
     // YouTube 影片連結交給內建的播放視窗
     if ([WLYouTubeController openURL:URL])
@@ -108,7 +115,7 @@ static BOOL sHasCacheDir = NO;
         [delegate release];
     }
     if (download == nil)
-        [[NSWorkspace sharedWorkspace] openURL:originalURL];
+        [self openWithoutPreview:originalURL];
     return download;
 }
 
@@ -378,7 +385,7 @@ static void formatProps(NSMutableString *s, id *fmt, id *val) {
 - (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error {
     NSURL *URL = [[download request] URL];
     [sURLs removeObject:URL];
-    [[NSWorkspace sharedWorkspace] openURL:_browserURL];
+    [WLPreviewController openWithoutPreview:_browserURL];
 
 }
 
