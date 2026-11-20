@@ -128,11 +128,16 @@ static NSURL *secureURLForURL(NSURL *URL) {
     _webView = nil;
 }
 
+// 標題一律帶出目前頁面的網域：網頁標題是網站自己給的，只顯示它的話可以冒充成別的網站
 - (void)updateTitle {
     NSString *title = [_webView title];
-    if ([title length] == 0)
-        title = [[_webView URL] host];
-    [_window setTitle:([title length] > 0 ? title : @"Welly")];
+    NSString *host = [[_webView URL] host];
+    if ([host length] == 0)
+        [_window setTitle:@"Welly"];
+    else if ([title length] == 0)
+        [_window setTitle:host];
+    else
+        [_window setTitle:[NSString stringWithFormat:@"%@ — %@", host, title]];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -160,7 +165,10 @@ static NSURL *secureURLForURL(NSURL *URL) {
 
 // 這個網址無法在視窗內顯示，交給外部瀏覽器；視窗裡如果還沒有任何頁面就一併關掉，不留空白視窗
 - (void)handOverToBrowser:(NSURL *)URL {
-    if (URL != nil)
+    // 網址可能來自網頁內容（轉址、指令碼），只允許把網頁交給瀏覽器；
+    // file:// 或其他 App 的網址協定一律不開
+    NSString *scheme = [[URL scheme] lowercaseString];
+    if ([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"])
         [[NSWorkspace sharedWorkspace] openURL:URL];
     // 這裡是從網頁檢視的回呼進來的；關閉視窗會釋放網頁檢視，要等回呼結束後再做
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -247,9 +255,9 @@ static NSURL *secureURLForURL(NSURL *URL) {
 }
 
 - (void)openInBrowser:(id)sender {
-    NSURL *URL = [_webView URL];
-    if (URL != nil)
-        [[NSWorkspace sharedWorkspace] openURL:URL];
+    NSString *scheme = [[[_webView URL] scheme] lowercaseString];
+    if ([scheme isEqualToString:@"http"] || [scheme isEqualToString:@"https"])
+        [[NSWorkspace sharedWorkspace] openURL:[_webView URL]];
 }
 
 #pragma mark -
@@ -287,9 +295,13 @@ static NSURL *secureURLForURL(NSURL *URL) {
             });
         }
     } else {
-        // mailto: 等其他種類的連結交給系統處理
+        // 其他種類的連結不在視窗內載入。只有使用者親自點的 mailto: 連結交給系統；
+        // 網頁自己觸發的、或 file:// 與其他 App 的網址協定一律不處理
         decisionHandler(WKNavigationActionPolicyCancel);
-        [self handOverToBrowser:URL];
+        if ([scheme isEqualToString:@"mailto"] && [navigationAction navigationType] == WKNavigationTypeLinkActivated)
+            [[NSWorkspace sharedWorkspace] openURL:URL];
+        // 視窗裡還沒有任何頁面時不留空白視窗
+        [self handOverToBrowser:nil];
     }
 }
 
