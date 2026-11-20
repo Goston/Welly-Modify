@@ -597,15 +597,17 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
         // older mac version
         font = [NSFont fontWithName:@"STHeitiTC-Medium" size:17.0];
     }
-    NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName];
-    
+    // 頁尾畫在沒有內容的黑底上，要指定淺色，否則預設的黑字看不見
+    NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName,
+                                     [NSColor lightGrayColor], NSForegroundColorAttributeName, nil];
+
     //footer watermark
     NSTimeZone *timeZone = [NSTimeZone localTimeZone];
     NSDateFormatter *formatter = [[[NSDateFormatter alloc] init] autorelease];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSDate *currentDate = [NSDate date];
     int fnameCount = [[resultDic objectForKey:@"fnamecount"] intValue];
-    NSString *footerString = [NSString stringWithFormat:@"本圖由clyang版Welly擷取, 安裝:https://github.com/clyang/welly. 截圖時間: %@ (%@)     第%d頁",[formatter stringFromDate:currentDate], [timeZone name], fnameCount];
+    NSString *footerString = [NSString stringWithFormat:@"截圖時間: %@ (%@)     第%d頁",[formatter stringFromDate:currentDate], [timeZone name], fnameCount];
     
     lineNum1 = [[resultDic objectForKey:@"lineNum1"] intValue];
     lineNum2 = [[resultDic objectForKey:@"lineNum2"] intValue];
@@ -628,9 +630,31 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
     //NSLog(@"L1:%d L2:%d totalh: %d totalP: %d hPerRow: %d", lineNum1, lineNum2, totalHeight, totalPage, hPerRow);
     
     NSSize newSize = NSMakeSize(w, totalHeight);
+    // 不能用 -[NSImage lockFocus]：影像高度超過 16384 像素（Retina 螢幕上約 8192 點，大約 13～15 頁）時
+    // 它畫不進去，存出來的圖只有黑底。改成自己配置點陣圖來畫，像素大小維持螢幕的倍率
+    CGFloat scale = [[self window] backingScaleFactor];
+    if (scale < 1.0)
+        scale = 1.0;
+    NSBitmapImageRep *bitmap = [[[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
+                                                                         pixelsWide:(NSInteger)(w * scale)
+                                                                         pixelsHigh:(NSInteger)(totalHeight * scale)
+                                                                      bitsPerSample:8
+                                                                    samplesPerPixel:4
+                                                                           hasAlpha:YES
+                                                                           isPlanar:NO
+                                                                     colorSpaceName:NSDeviceRGBColorSpace
+                                                                        bytesPerRow:0
+                                                                       bitsPerPixel:0] autorelease];
+    bitmap = [bitmap bitmapImageRepByRetaggingWithColorSpace:[NSColorSpace sRGBColorSpace]];
+    [bitmap setSize:newSize];
     NSImage *finalImage = [[[NSImage alloc] initWithSize:newSize] autorelease];
-    
-    [finalImage lockFocus];
+    [finalImage addRepresentation:bitmap];
+
+    [NSGraphicsContext saveGraphicsState];
+    [NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithBitmapImageRep:bitmap]];
+    // 沒畫到的地方（最底下放頁尾的那一列）維持黑底；不填的話是透明的，存成 JPEG 會變成白色
+    [[NSColor blackColor] set];
+    NSRectFill(NSMakeRect(0, 0, w, totalHeight));
     // draw first page (index: 0)
     result = [screenArray objectAtIndex:0];
     [result drawInRect:NSMakeRect(0, totalHeight-h, w, h)
@@ -662,15 +686,15 @@ BOOL isEnglishNumberAlphabet(unsigned char c) {
               fraction:1.0];
     
     [footerString drawAtPoint: NSMakePoint(10,2) withAttributes: attrsDictionary];
-    [finalImage unlockFocus];
+    [NSGraphicsContext restoreGraphicsState];
     
     // goooooooooooooooooood, finally done!!
     // let's write it to JPEG Files
-    // but first, let's check if ~/Download/welly_clyang exists
+    // but first, let's check if ~/Download/welly_screenshot exists
     NSError *error;
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
-    NSString *dataPath = [documentsDirectory stringByAppendingPathComponent:@"/welly-clyang_screenshot"];
+    NSString *dataPath = [documentsDirectory stringByAppendingPathComponent:@"/welly_screenshot"];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath])
         [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:&error];
